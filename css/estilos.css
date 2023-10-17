@@ -1,0 +1,47 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+canvas {
+    background: black;
+}
+
+p {
+    position: absolute;
+    color: crimson;
+    font-size: 75px;
+    font-weight: 800;
+}
+
+a {
+    position: absolute;
+    color: crimson;
+    font-size: 50px;
+    font-weight: 800;
+    margin-top: 150px;
+    text-decoration: none;
+}
+
+.centered {
+    width: 100vw;
+    height: 5px;
+    background: cadetblue;
+    position: absolute;
+    top: calc(50% - 2.5px);
+}
+
+.scoreboard {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+#score {
+    position: relative;
+}
