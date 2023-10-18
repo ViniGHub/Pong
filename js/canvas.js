@@ -1,5 +1,5 @@
 var ctx = document.querySelector('canvas').getContext('2d');
-let posySquare = (window.innerHeight / 2) -50;
+let posySquare = (window.innerHeight / 2) - 50;
 
 let posxBall = 50, posyBall = window.innerHeight / 2;
 let acX = 10, acY = 0;
@@ -21,20 +21,28 @@ function drawCanv() {
 
 function moveBall() {
     if (((posyBall - 20 < posySquare + 100) && (posyBall + 20 > posySquare)) && (posxBall > window.innerWidth - 70 && posxBall < window.innerWidth - 50)) {
-        acX = Math.random() * -5 - 10;
-        acY = Math.random() * 20 - 10;
         score++;
         $('#score').html(score);
+
+        acX = Math.random() * -5 - 10;
+        if (posySquare + 50 < posyBall) {
+            acY = (((posyBall - (posySquare + 50)) * 0.5) > 15) ? 15 : (posyBall - (posySquare + 50)) * 0.5;
+
+        } else {
+            acY = (((posyBall - (posySquare + 50)) * 0.5) < -15) ? -15 : (posyBall - (posySquare + 50)) * 0.5;
+
+        }
+        console.log(acY);
+
     } else if (posxBall < 30) {
         acX = Math.random() * 5 + 10;
-        acY = Math.random() * 20 - 10;
     } else if (posyBall < 0) {
-        acY = Math.random() * 5;
+        acY *= -1;
     } else if (posyBall > window.innerHeight - 30) {
-        acY = Math.random() * -5;
+        acY *= -1;
     } else if (posxBall > window.innerWidth && !lost) {
         $('#GameO').html('Game Over');
-        $('main').append('<a onclick="location.reload()" href="#">Reiniciar</a>')
+        $('main').append('<a onclick="location.reload()" href="#">Reiniciar</a>');
 
         lost = true;
     }
@@ -58,6 +66,12 @@ $('body').on('keydown', function (e) {
     }
     if (e.key === 'r') {
         location.reload();
+    }
+});
+
+$('body').on('mousemove', function (e) {
+    if (!(posySquare > window.innerHeight + 100) || !(posySquare < 0)) {
+        posySquare = e.clientY - 50;
     }
 });
 
