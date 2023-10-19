@@ -3,8 +3,10 @@ let posySquare = (window.innerHeight / 2) - 50;
 
 let posxBall = 50, posyBall = window.innerHeight / 2;
 let acX = 10, acY = 0;
+
 let score = 0;
 let scoreVini = 41;
+
 let lost = false;
 
 document.querySelector('canvas').width = window.innerWidth;
@@ -56,12 +58,20 @@ function moveBall() {
         acY = -Math.abs(acY);
 
     } else if (posxBall > window.innerWidth && !lost) {
+        if (score > sessionStorage.getItem('highPlayer')) {
+            sessionStorage.setItem('highPlayer', score);
+        }
+
         $('#GameOBox').show();
         $('#GameO').html('Game Over');
         $('#GameOBox').append('<a id="Reini" onclick="location.reload()" href="#">Reiniciar</a>');
 
+        $('#highVini').html(scoreVini);
+        $('#highPlayer').html(sessionStorage.getItem('highPlayer'));
+
         setTimeout(() => {  
-            $('#GameOBox').css('box-shadow', '0px 0px 10px 10px rgba(34, 24, 28, 0.5)');
+            $('#GameOBox').css('border', '5px solid rgba(34, 24, 28)');
+            $('#highs').css('border', '5px solid rgba(34, 24, 28)');
             $('#GameOBox').css('transform', 'scale(1.1)');
         }, 500);
         lost = true;
