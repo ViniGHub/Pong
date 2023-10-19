@@ -7,19 +7,19 @@ main {
 }
 
 canvas {
-    background: black;
+    background: #F6E8EA;
 }
 
 p {
     position: absolute;
-    color: crimson;
+    color: #22181C;
     font-size: 75px;
     font-weight: 800;
 }
 
 a {
     position: absolute;
-    color: crimson;
+    color: #22181C;
     font-size: 50px;
     font-weight: 800;
     margin-top: 150px;
@@ -42,6 +42,32 @@ a {
     position: absolute;
 }
 
+#GameOBox {
+    display: hidden;
+    position: absolute;
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    transition: 1s;
+}
+
+#GameO {
+    position: relative;
+}
+
 #score {
+    position: relative;
+
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+
+}
+
+#Reini {
     position: relative;
 }

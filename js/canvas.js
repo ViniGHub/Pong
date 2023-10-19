@@ -4,17 +4,29 @@ let posySquare = (window.innerHeight / 2) - 50;
 let posxBall = 50, posyBall = window.innerHeight / 2;
 let acX = 10, acY = 0;
 let score = 0;
+let scoreVini = 41;
 let lost = false;
 
 document.querySelector('canvas').width = window.innerWidth;
 document.querySelector('canvas').height = window.innerHeight;
 
+$('#GameOBox').hide();
+
 function drawCanv() {
-    ctx.fillStyle = '#ff0000';
+    ctx.beginPath();
+    ctx.strokeStyle = '#F45B69';
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, window.innerHeight);
+    ctx.moveTo(0, window.innerHeight / 2);
+    ctx.lineTo(window.innerWidth, window.innerHeight / 2);
+    ctx.lineWidth = 10;
+    ctx.stroke();
+
+    ctx.fillStyle = '#22181C';
     ctx.fillRect(window.innerWidth - 50, posySquare, 5, 100);
 
     ctx.beginPath();
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = '#5A0001';
     ctx.arc(posxBall, posyBall, 15, 0, 2 * Math.PI, 0, 360);
     ctx.fill();
 }
@@ -28,22 +40,30 @@ function moveBall() {
         if (posySquare + 50 < posyBall) {
             acY = (((posyBall - (posySquare + 50)) * 0.5) > 15) ? 15 : (posyBall - (posySquare + 50)) * 0.5;
 
-        } else {
+        } else if (posySquare + 50 > posyBall) {
             acY = (((posyBall - (posySquare + 50)) * 0.5) < -15) ? -15 : (posyBall - (posySquare + 50)) * 0.5;
 
+        } else {
+            acY = (Math.random() * 5) - 2.5;
         }
-        console.log(acY);
 
     } else if (posxBall < 30) {
         acX = Math.random() * 5 + 10;
-    } else if (posyBall < 0) {
-        acY *= -1;
-    } else if (posyBall > window.innerHeight - 30) {
-        acY *= -1;
-    } else if (posxBall > window.innerWidth && !lost) {
-        $('#GameO').html('Game Over');
-        $('main').append('<a onclick="location.reload()" href="#">Reiniciar</a>');
+    } else if (posyBall < 15) {
+        acY = Math.abs(acY);
 
+    } else if (posyBall > window.innerHeight - 15) {
+        acY = -Math.abs(acY);
+
+    } else if (posxBall > window.innerWidth && !lost) {
+        $('#GameOBox').show();
+        $('#GameO').html('Game Over');
+        $('#GameOBox').append('<a id="Reini" onclick="location.reload()" href="#">Reiniciar</a>');
+
+        setTimeout(() => {  
+            $('#GameOBox').css('box-shadow', '0px 0px 10px 10px rgba(34, 24, 28, 0.5)');
+            $('#GameOBox').css('transform', 'scale(1.1)');
+        }, 500);
         lost = true;
     }
 
