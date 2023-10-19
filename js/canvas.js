@@ -5,7 +5,7 @@ let posxBall = 50, posyBall = window.innerHeight / 2;
 let acX = 10, acY = 0;
 
 let score = 0;
-let scoreVini = 41;
+const scoreVini = 51;
 
 let lost = false;
 
@@ -100,9 +100,8 @@ $('body').on('keydown', function (e) {
 });
 
 $('body').on('mousemove', function (e) {
-    if (!(posySquare > window.innerHeight + 100) || !(posySquare < 0)) {
-        posySquare = e.clientY - 50;
-    }
+    posySquare = e.clientY - 50;
+
 });
 
 function gameFrame() {
