@@ -5,7 +5,7 @@ let posxBall = 50, posyBall = window.innerHeight / 2;
 let acX = 10, acY = 0;
 
 let score = 0;
-let scoreVini = 41;
+const scoreVini = 51;
 
 let lost = false;
 
@@ -38,7 +38,7 @@ function moveBall() {
         score++;
         $('#score').html(score);
 
-        acX = Math.random() * -5 - 10;
+        acX = (Math.random() * -5) - 15;
         if (posySquare + 50 < posyBall) {
             acY = (((posyBall - (posySquare + 50)) * 0.5) > 15) ? 15 : (posyBall - (posySquare + 50)) * 0.5;
 
@@ -50,7 +50,7 @@ function moveBall() {
         }
 
     } else if (posxBall < 30) {
-        acX = Math.random() * 5 + 10;
+        acX = (Math.random() * 5) + 15;
     } else if (posyBall < 15) {
         acY = Math.abs(acY);
 
@@ -69,9 +69,9 @@ function moveBall() {
         $('#highVini').html(scoreVini);
         $('#highPlayer').html(sessionStorage.getItem('highPlayer'));
 
-        setTimeout(() => {  
-            $('#GameOBox').css('border', '5px solid rgba(34, 24, 28)');
-            $('#highs').css('border', '5px solid rgba(34, 24, 28)');
+        setTimeout(() => {
+            $('#GameOBox').css('box-shadow', '0 0 10px 7.5px rgba(34, 24, 28, 0.5)');
+            $('#highs').css('box-shadow', '0 0 10px 7.5px rgba(34, 24, 28, 0.5)');
             $('#GameOBox').css('transform', 'scale(1.1)');
         }, 500);
         lost = true;
@@ -100,9 +100,8 @@ $('body').on('keydown', function (e) {
 });
 
 $('body').on('mousemove', function (e) {
-    if (!(posySquare > window.innerHeight + 100) || !(posySquare < 0)) {
-        posySquare = e.clientY - 50;
-    }
+    posySquare = e.clientY - 50;
+
 });
 
 function gameFrame() {
