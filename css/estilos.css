@@ -74,6 +74,7 @@ a {
     transition: 1s;
     transition-delay: .2s;
     border-radius: 10px;
+    color: #ff0000;
 }
 
 #highs::before {

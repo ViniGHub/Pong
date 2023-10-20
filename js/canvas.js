@@ -8,15 +8,28 @@ let score = 0;
 const scoreVini = 51;
 
 let lost = false;
+let ArrowDownPress = false;
+let ArrowUpPress = false;
+
+console.log(sessionStorage.getItem('beatVini'));
 
 document.querySelector('canvas').width = window.innerWidth;
 document.querySelector('canvas').height = window.innerHeight;
 
 $('#GameOBox').hide();
 
+if (sessionStorage.getItem('beatVini') != null) {
+    $('canvas').css('background', 'black')
+    $('#score').css('color', 'white')
+}
+
 function drawCanv() {
     ctx.beginPath();
-    ctx.strokeStyle = '#F45B69';
+    if (sessionStorage.getItem('beatVini') == null) {
+        ctx.strokeStyle = '#F45B69';
+    } else {
+        ctx.strokeStyle = '#fff';
+    }
     ctx.moveTo(0, 0);
     ctx.lineTo(0, window.innerHeight);
     ctx.moveTo(0, window.innerHeight / 2);
@@ -24,11 +37,20 @@ function drawCanv() {
     ctx.lineWidth = 10;
     ctx.stroke();
 
-    ctx.fillStyle = '#22181C';
+    if (sessionStorage.getItem('beatVini') == null) {
+        ctx.fillStyle = '#000000';
+    } else {
+        ctx.fillStyle = '#ff0000';
+    }
     ctx.fillRect(window.innerWidth - 50, posySquare, 5, 100);
 
+
     ctx.beginPath();
-    ctx.fillStyle = '#5A0001';
+    if (sessionStorage.getItem('beatVini') == null) {
+        ctx.fillStyle = '#5A0001';
+    } else {
+        ctx.fillStyle = '#ff0000';
+    }
     ctx.arc(posxBall, posyBall, 15, 0, 2 * Math.PI, 0, 360);
     ctx.fill();
 }
@@ -74,6 +96,11 @@ function moveBall() {
             $('#highs').css('box-shadow', '0 0 10px 7.5px rgba(34, 24, 28, 0.5)');
             $('#GameOBox').css('transform', 'scale(1.1)');
         }, 500);
+
+        if (sessionStorage.getItem('highPlayer') > scoreVini) {
+            sessionStorage.setItem('beatVini', true);
+        }
+
         lost = true;
     }
 
@@ -83,19 +110,37 @@ function moveBall() {
 
 }
 
-$('body').on('keydown', function (e) {
-    if (e.key === 'ArrowDown') {
-        if (!(posySquare > window.innerHeight - 100)) {
-            posySquare += 10;
-        }
+function moveRect() {
+    if (!(posySquare > window.innerHeight - 100) && ArrowDownPress) {
+        posySquare += 10;
     }
-    if (e.key === 'ArrowUp') {
-        if (!(posySquare < 0)) {
-            posySquare -= 10;
-        }
+
+    if (!(posySquare < 0) && ArrowUpPress) {
+        posySquare -= 10;
+    }
+
+}
+
+$('body').on('keydown', function (e) {
+    if (e.key === 'ArrowDown' && !ArrowDownPress) {
+        ArrowDownPress = true;
+        console.log('tese');
+    }
+    if (e.key === 'ArrowUp' && !ArrowUpPress) {
+        ArrowUpPress = true;
+        console.log('tese');
     }
     if (e.key === 'r') {
         location.reload();
+    }
+});
+
+$('body').on('keyup', function (e) {
+    if (e.key === 'ArrowDown') {
+        ArrowDownPress = false;
+    }
+    if (e.key === 'ArrowUp') {
+        ArrowUpPress = false;
     }
 });
 
@@ -107,6 +152,7 @@ $('body').on('mousemove', function (e) {
 function gameFrame() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     moveBall();
+    moveRect();
     drawCanv();
 
     requestAnimationFrame(gameFrame);
