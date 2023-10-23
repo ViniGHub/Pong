@@ -4,6 +4,8 @@ let posySquare = (window.innerHeight / 2) - 50;
 let posxBall = 50, posyBall = window.innerHeight / 2;
 let acX = 10, acY = 0;
 
+let colorLine = '#F45B69', colorRect = '#000000', colorBall = '#5A0001';
+
 let score = 0;
 const scoreVini = 51;
 
@@ -11,25 +13,23 @@ let lost = false;
 let ArrowDownPress = false;
 let ArrowUpPress = false;
 
-console.log(sessionStorage.getItem('beatVini'));
-
 document.querySelector('canvas').width = window.innerWidth;
 document.querySelector('canvas').height = window.innerHeight;
 
 $('#GameOBox').hide();
 
 if (sessionStorage.getItem('beatVini') != null) {
-    $('canvas').css('background', 'black')
-    $('#score').css('color', 'white')
+    $('canvas').css('background', 'black');
+    $('#score').css('color', 'white');
+
+    colorLine = '#fff';
+    colorRect = '#ff0000';
+    colorBall = '#ff0000';
 }
 
 function drawCanv() {
     ctx.beginPath();
-    if (sessionStorage.getItem('beatVini') == null) {
-        ctx.strokeStyle = '#F45B69';
-    } else {
-        ctx.strokeStyle = '#fff';
-    }
+    ctx.strokeStyle = colorLine;
     ctx.moveTo(0, 0);
     ctx.lineTo(0, window.innerHeight);
     ctx.moveTo(0, window.innerHeight / 2);
@@ -37,20 +37,11 @@ function drawCanv() {
     ctx.lineWidth = 10;
     ctx.stroke();
 
-    if (sessionStorage.getItem('beatVini') == null) {
-        ctx.fillStyle = '#000000';
-    } else {
-        ctx.fillStyle = '#ff0000';
-    }
+    ctx.fillStyle = colorRect;
     ctx.fillRect(window.innerWidth - 50, posySquare, 5, 100);
 
-
     ctx.beginPath();
-    if (sessionStorage.getItem('beatVini') == null) {
-        ctx.fillStyle = '#5A0001';
-    } else {
-        ctx.fillStyle = '#ff0000';
-    }
+    ctx.fillStyle = colorBall;
     ctx.arc(posxBall, posyBall, 15, 0, 2 * Math.PI, 0, 360);
     ctx.fill();
 }
@@ -124,11 +115,11 @@ function moveRect() {
 $('body').on('keydown', function (e) {
     if (e.key === 'ArrowDown' && !ArrowDownPress) {
         ArrowDownPress = true;
-        console.log('tese');
+        ArrowUpPress = false;
     }
     if (e.key === 'ArrowUp' && !ArrowUpPress) {
         ArrowUpPress = true;
-        console.log('tese');
+        ArrowDownPress = false;
     }
     if (e.key === 'r') {
         location.reload();
@@ -145,7 +136,16 @@ $('body').on('keyup', function (e) {
 });
 
 $('body').on('mousemove', function (e) {
-    posySquare = e.clientY - 50;
+    if ((e.clientY < window.innerHeight - 50) && (e.clientY > 50)) {
+        posySquare = e.clientY - 50;
+    } else {
+        if (e.clientY < 50) {
+            posySquare = 0;
+        }
+        if (e.clientY > window.innerHeight - 50) {
+            posySquare = window.innerHeight - 100;
+        }
+    }
 
 });
 
