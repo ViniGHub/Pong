@@ -2,7 +2,7 @@ var ctx = document.querySelector('canvas').getContext('2d');
 let posySquare = (window.innerHeight / 2) - 50;
 
 let posxBall = 50, posyBall = window.innerHeight / 2;
-let acX = 10, acY = 0;
+let acX = 5, acY = 0;
 
 let colorLine = '#F45B69', colorRect = '#000000', colorBall = '#5A0001';
 
@@ -51,19 +51,19 @@ function moveBall() {
         score++;
         $('#score').html(score);
 
-        acX = (Math.random() * -5) - 15;
+        acX = (Math.random() * -2.5) - 5;
         if (posySquare + 50 < posyBall) {
-            acY = (((posyBall - (posySquare + 50)) * 0.5) > 15) ? 15 : (posyBall - (posySquare + 50)) * 0.5;
+            acY = (((posyBall - (posySquare + 50)) * 0.25) > 5) ? 5 : (posyBall - (posySquare + 50)) * 0.25;
 
         } else if (posySquare + 50 > posyBall) {
-            acY = (((posyBall - (posySquare + 50)) * 0.5) < -15) ? -15 : (posyBall - (posySquare + 50)) * 0.5;
+            acY = (((posyBall - (posySquare + 50)) * 0.25) < -5) ? -5 : (posyBall - (posySquare + 50)) * 0.25;
 
         } else {
-            acY = (Math.random() * 5) - 2.5;
+            acY = (Math.random() * 2.5) - 2.5;
         }
 
     } else if (posxBall < 30) {
-        acX = (Math.random() * 5) + 15;
+        acX = (Math.random() * 2.5) + 5;
     } else if (posyBall < 15) {
         acY = Math.abs(acY);
 
@@ -155,7 +155,10 @@ function gameFrame() {
     moveRect();
     drawCanv();
 
-    requestAnimationFrame(gameFrame);
+    setTimeout(() => {
+        gameFrame();
+    }, 1);
+    // requestAnimationFrame(gameFrame);
 }
 
 
