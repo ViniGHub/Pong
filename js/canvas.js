@@ -7,6 +7,7 @@ let acX = 5, acY = 0;
 let colorLine = '#F45B69', colorRect = '#000000', colorBall = '#5A0001';
 
 let score = 0;
+let scored = false;
 const scoreVini = 51;
 
 let lost = false;
@@ -47,8 +48,9 @@ function drawCanv() {
 }
 
 function moveBall() {
-    if (((posyBall - 20 < posySquare + 100) && (posyBall + 20 > posySquare)) && (posxBall > window.innerWidth - 70 && posxBall < window.innerWidth - 50)) {
+    if (((posyBall - 20 < posySquare + 100) && (posyBall + 20 > posySquare)) && (posxBall > window.innerWidth - 70 && posxBall < window.innerWidth - 50) && !scored) {
         score++;
+        scored = true;
         $('#score').html(score);
 
         acX = (Math.random() * -2.5) - 5;
@@ -63,6 +65,7 @@ function moveBall() {
         }
 
     } else if (posxBall < 30) {
+        scored = false;
         acX = (Math.random() * 2.5) + 5;
     } else if (posyBall < 15) {
         acY = Math.abs(acY);
